@@ -30,21 +30,24 @@ class Speler:
         y_pos = dy + (y_grid-.5)*blokgrootte + (y_grid-1)*lijndikte
         return x_pos, y_pos
     
-    def move(self,event):
-        finish = 0
-        # detecteer keypress
-        if event.type == pygame.KEYDOWN:
-            self.keydownevents = self.keydownevents + 1
-            if (event.key == pygame.K_UP and self.keydownevents == 1 and self.y > 1):
-                self.y = self.y - 1
-            elif (event.key == pygame.K_DOWN and self.keydownevents == 1 and self.y <9):
-                self.y = self.y + 1
-            elif (event.key == pygame.K_LEFT and self.keydownevents == 1 and self.x > 1):
-                self.x = self.x - 1
-            elif (event.key == pygame.K_RIGHT and self.keydownevents == 1 and self.x <9):
-                self.x = self.x + 1
-            elif event.key == pygame.K_SPACE and self.keydownevents == 1:
-                finish = 1
+    def move(self,event,keyup):
+        finish = 0        
+        if event.type == pygame.KEYDOWN:       
+            # detecteer (nieuwe) keypress
+            if keyup ==1: 
+                keyup = 0
+                self.keydownevents = self.keydownevents + 1
+                if (event.key == pygame.K_UP and self.keydownevents == 1 and self.y > 1):
+                    self.y = self.y - 1
+                elif (event.key == pygame.K_DOWN and self.keydownevents == 1 and self.y <9):
+                    self.y = self.y + 1
+                elif (event.key == pygame.K_LEFT and self.keydownevents == 1 and self.x > 1):
+                    self.x = self.x - 1
+                elif (event.key == pygame.K_RIGHT and self.keydownevents == 1 and self.x <9):
+                    self.x = self.x + 1
+                elif event.key == pygame.K_SPACE and self.keydownevents == 1:
+                    finish = 1
         elif event.type == pygame.KEYUP:
             self.keydownevents = 0
-        return finish
+            keyup = 1
+        return finish,keyup
